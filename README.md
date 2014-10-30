@@ -1,4 +1,4 @@
 PropellerClock
 ==============
 
-Sample for a propeller clock.
+Sample for a propeller clock with Arduino.
