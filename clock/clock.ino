@@ -17,21 +17,21 @@
   int rows= 8;
 
   // variable to store the value coming from the sensor		        
-  int sensVal;  
-  
-  int i;
-  char textString[] = "KOOS POV TEST";
+  int cont = 0;
+  int c = 0;
+
+  char textString[] = "UP";
   
   String tmp_str;
 
   void setup()
   {
   	//hr,min,sec,day,month,yr
-    setTime(22,30,30,27,10,2014);
+    setTime(11,02,40,13,02,1994);
     
     pinMode(sensorPIN, INPUT);
 
-    for (i = 0; i < rows; i++){
+    for (int i = 0; i < rows; i++){
       pinMode(LEDpins[i], OUTPUT);    
     }
 
@@ -48,26 +48,35 @@
   {
 
     tmp_str = clokTime();
-    tmp_str = tmp_str + " ";
+    tmp_str = "  "+tmp_str+" ";
+  
+    cont = 0;
+    c = 0; 
+    while(true){
+      if(analogRead(sensorPIN) > 300){
+        c ++;
+        while(true){
+          cont++;
+          if(analogRead(sensorPIN) > 300){
+              break;
+          }
+        }    
+      }
+      cont = cont / c;
+      if(c == 3){
+          break;
+      }
+    }
     
-    Serial.print(analogRead(sensorPIN));
-    // while(analogRead(sensorPIN) != 0)
-    // {
-    //   digitalWrite(13, LOW);   // set the LED off
-    // }
-    
-    // digitalWrite(13, HIGH);   // set the LED on
-    
-    // printen klok letter voor letter
     for (int k = 0; k < tmp_str.length(); k++){
       printLetter(tmp_str.charAt(k));
     }
-    
-    // delay(2); // pauze tussen de teksten  
-    
-    // for (int k = sizeof(textString)-1; k > -1; k--){
-    //   printLetterboven(textString[k]);
-    // }  
+
+    for (int k = sizeof(textString)-1; k > -1; k--){
+      printLetterboven(textString[k]);
+    }  
+
+    delay(cont);
   }
 
   String clokTime(){
@@ -111,7 +120,7 @@
         delay(1);
     }
     //clear the LEDs
-    for (i = 0; i < rows; i++){
+    for (int i = 0; i < rows; i++){
       digitalWrite(LEDpins[i] , LOW);
     }
     // space between letters
@@ -138,7 +147,7 @@
       delay(1);
     }
     //clear the LEDs
-    for (i = 0; i < rows; i++){
+    for (int i = 0; i < rows; i++){
       digitalWrite(LEDpins[i] , LOW);
     }
     // space between letters
